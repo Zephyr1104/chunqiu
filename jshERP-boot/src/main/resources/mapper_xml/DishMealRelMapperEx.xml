@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsh.erp.datasource.mappers.DishMealRelMapperEx">
+
+    <select id="select" resultType="com.jsh.erp.datasource.entities.DishMealRelEx">
+        SELECT
+        dmr.*
+        FROM
+        dish_meal_rel dmr
+        WHERE 1 = 1
+        <if test="dishNameId!=null">
+            <bind name ="dishNameIdLike" value="'%' + dishNameId + '%'"/>
+            and dmr.dish_name_id like #{dishNameIdLike}
+        </if>
+        <if test="diningPrice!=null">
+            and dmr.dining_price = #{diningPrice}
+        </if>
+        <if test="mealId!=null">
+            and dmr.meal_id = #{mealId}
+        </if>
+        <if test="beginTime != null">
+            and dmr.dining_date &gt;= #{beginTime}
+        </if>
+        <if test="endTime != null">
+            and dmr.dining_date &lt;= #{endTime}
+        </if>
+        AND IFNULL(dmr.delete_Flag,'0') != '1'
+        order by dmr.id desc
+        <if test ="offset != null and rows != null">
+            limit #{offset},#{rows}
+        </if>
+    </select>
+
+    <select id="countSelect" resultType="java.lang.Long">
+        SELECT count(*)
+        FROM
+        dish_meal_rel dmr
+        WHERE 1 = 1
+        <if test="price!=null">
+            and dmr.dining_price = #{price}
+        </if>
+        <if test="mealId!=null">
+            and dmr.meal_id = #{mealId}
+        </if>
+        <if test="beginTime != null">
+            and dmr.dining_date &gt;= #{beginTime}
+        </if>
+        <if test="endTime != null">
+            and dmr.dining_date &lt;= #{endTime}
+        </if>
+        AND IFNULL(dmr.delete_Flag,'0') != '1'
+    </select>
+
+    <delete id="batchDeleteByIds">
+        update dish_meal_rel
+        set delete_Flag = '1'
+        where id in (
+        <foreach collection="ids" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+</mapper>

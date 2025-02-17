@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsh.erp.datasource.mappers.MaterialRMapperEx">
+
+    <resultMap extends="com.jsh.erp.datasource.mappers.MaterialRMapper.BaseResultMap" id="ResultMapEx" type="com.jsh.erp.datasource.entities.MaterialRVo4ListEx">
+        <result column="OrganName" jdbcType="VARCHAR" property="organName" />
+        <result column="userName" jdbcType="VARCHAR" property="userName" />
+    </resultMap>
+
+    <select id="selectByConditionMaterialR" parameterType="com.jsh.erp.datasource.entities.MaterialREx" resultMap="ResultMapEx">
+        select distinct ah.*
+        from quality ah
+        where 1=1
+        <if test="qualityNo != null">
+            <bind name="qualityNo" value="'%'+qualityNo+'%'"/>
+            and ah.quality_no like #{qualityNo}
+        </if>
+        <if test="type != null">
+            and ah.type=#{type}
+        </if>
+        <if test="beginTime != null">
+            and ah.quality_time &gt;= #{beginTime}
+        </if>
+        <if test="endTime != null">
+            and ah.quality_time &lt;= #{endTime}
+        </if>
+        <if test="organId != null">
+            and ah.organ_id=#{organId}
+        </if>
+        <if test="auditor != null">
+            and ah.auditor=#{auditor}
+        </if>
+        <if test="creator != null">
+            and ah.creator=#{creator}
+        </if>
+        <if test="creatorArray != null">
+            and ah.creator in (
+            <foreach collection="creatorArray" item="creator" separator=",">
+                #{creator}
+            </foreach>
+            )
+        </if>
+        <if test="depotId != null">
+            and ah.depot_id=#{depotId}
+        </if>
+        <if test="status != null and status != ''">
+            and ah.status=#{status}
+        </if>
+        <if test="remark != null and remark !=''">
+            <bind name="bindRemark" value="'%'+remark+'%'"/>
+            and ah.remark like #{bindRemark}
+        </if>
+        <if test="number != null and number !=''">
+            <if test="number == 'QiChu'">
+                and ai.bill_id is null
+            </if>
+            <if test="number != 'QiChu'">
+                <bind name="bindNumber" value="'%'+number+'%'"/>
+                and dh.number like #{bindNumber}
+            </if>
+        </if>
+        and ifnull(ah.delete_flag,'0') !='1'
+        order by ah.id desc
+        <if test="offset != null and rows != null">
+            limit #{offset},#{rows}
+        </if>
+    </select>
+
+
+    <select id="countsByMaterialR" resultType="java.lang.Long">
+        SELECT
+        COUNT(1) from
+        (select distinct ah.* FROM quality ah
+        WHERE 1=1
+        <if test="qualityNo != null">
+            <bind name="qualityNo" value="'%'+qualityNo+'%'"/>
+            and ah.quality_no like #{qualityNo}
+        </if>
+        <if test="type != null">
+            and ah.type=#{type}
+        </if>
+        <if test="beginTime != null">
+            and ah.bill_time &gt;= #{beginTime}
+        </if>
+        <if test="endTime != null">
+            and ah.bill_time &lt;= #{endTime}
+        </if>
+        <if test="organId != null">
+            and ah.organ_id=#{organId}
+        </if>
+        <if test="auditor != null">
+            and ah.auditor=#{auditor}
+        </if>
+        <if test="creator != null">
+            and ah.creator=#{creator}
+        </if>
+        <if test="creatorArray != null">
+            and ah.creator in (
+            <foreach collection="creatorArray" item="creator" separator=",">
+                #{creator}
+            </foreach>
+            )
+        </if>
+        <if test="depotId != null">
+            and ah.depot_id=#{depotId}
+        </if>
+        <if test="status != null and status != ''">
+            and ah.status=#{status}
+        </if>
+        <if test="remark != null and remark !=''">
+            <bind name="bindRemark" value="'%'+remark+'%'"/>
+            and ah.remark like #{bindRemark}
+        </if>
+        and ifnull(ah.delete_flag,'0') !='1') tb
+    </select>
+
+    <select id="getDetailByNumber" parameterType="com.jsh.erp.datasource.entities.MaterialREx" resultMap="ResultMapEx">
+        select ah.*, s.supplier OrganName, p.Name HandsPersonName, a.Name AccountName
+        from quality ah
+        left join jsh_supplier s on ah.organ_id=s.id and ifnull(s.delete_Flag,'0') !='1'
+        left join jsh_person p on ah.hands_person_id=p.id and ifnull(p.delete_Flag,'0') !='1'
+        left join jsh_account a on ah.account_id=a.id and ifnull(a.delete_Flag,'0') !='1'
+        where 1=1
+        <if test="billNo != null">
+            and ah.bill_no = #{billNo}
+        </if>
+        and ifnull(ah.delete_flag,'0') !='1'
+    </select>
+
+    <update id="batchDeleteMaterialRByIds">
+        update quality
+        set delete_flag='1'
+        where 1=1
+        and id in (
+        <foreach collection="ids" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </update>
+
+    <select id="getMaterialRListByIds"  resultMap="com.jsh.erp.datasource.mappers.MaterialRMapper.BaseResultMap">
+        select
+        <include refid="com.jsh.erp.datasource.mappers.MaterialRMapper.Base_Column_List" />
+        from quality
+        where 1=1
+        and account_id in (
+        <foreach collection="accountIds" item="accountId" separator=",">
+            #{accountId}
+        </foreach>
+        )
+        and ifnull(delete_flag,'0') !='1'
+    </select>
+
+    <select id="getMaterialRListByOrganIds"  resultMap="com.jsh.erp.datasource.mappers.MaterialRMapper.BaseResultMap">
+        select
+        <include refid="com.jsh.erp.datasource.mappers.MaterialRMapper.Base_Column_List" />
+        from quality
+        where 1=1
+        and organ_id in (
+        <foreach collection="organIds" item="organId" separator=",">
+            #{organId}
+        </foreach>
+        )
+        and ifnull(delete_flag,'0') !='1'
+    </select>
+
+    <select id="getMaterialRByReportId" resultType="com.jsh.erp.datasource.entities.MaterialR">
+        select q.*
+        from quality q
+        where 1=1
+        <if test="reportId != null">
+            and q.id = #{reportId}
+        </if>
+        and ifnull(q.delete_flag,'0') !='1'
+    </select>
+
+</mapper>

@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsh.erp.datasource.mappers.BomMasterMapper">
+  <resultMap id="BaseResultMap" type="com.jsh.erp.datasource.entities.BomMaster">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="bom_code" jdbcType="VARCHAR" property="bomCode" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="material_id" jdbcType="VARCHAR" property="materialId" />
+    <result column="processor_id" jdbcType="VARCHAR" property="processorId" />
+    <result column="bom_type" jdbcType="BIGINT" property="bomType" />
+    <result column="cook_yield_rate" jdbcType="BIGINT" property="cookYieldRate" />
+    <result column="customer_ids" jdbcType="VARCHAR" property="customerIds" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="tenant_id" jdbcType="BIGINT" property="tenantId" />
+    <result column="delete_Flag" jdbcType="VARCHAR" property="deleteFlag" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, bom_code, creator, material_id, processor_id, bom_type, cook_yield_rate, 
+    customer_ids, remark, create_time, update_time, tenant_id, delete_Flag
+  </sql>
+  <select id="selectByExample" parameterType="com.jsh.erp.datasource.entities.BomMasterExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from bom_master
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bom_master
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from bom_master
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jsh.erp.datasource.entities.BomMasterExample">
+    delete from bom_master
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jsh.erp.datasource.entities.BomMaster">
+    insert into bom_master (id, name, bom_code, 
+      creator, material_id, processor_id, 
+      bom_type, cook_yield_rate, customer_ids, 
+      remark, create_time, update_time, 
+      tenant_id, delete_Flag)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{bomCode,jdbcType=VARCHAR}, 
+      #{creator,jdbcType=BIGINT}, #{materialId,jdbcType=VARCHAR}, #{processorId,jdbcType=VARCHAR}, 
+      #{bomType,jdbcType=BIGINT}, #{cookYieldRate,jdbcType=BIGINT}, #{customerIds,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{tenantId,jdbcType=BIGINT}, #{deleteFlag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jsh.erp.datasource.entities.BomMaster">
+    insert into bom_master
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="bomCode != null">
+        bom_code,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="materialId != null">
+        material_id,
+      </if>
+      <if test="processorId != null">
+        processor_id,
+      </if>
+      <if test="bomType != null">
+        bom_type,
+      </if>
+      <if test="cookYieldRate != null">
+        cook_yield_rate,
+      </if>
+      <if test="customerIds != null">
+        customer_ids,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="tenantId != null">
+        tenant_id,
+      </if>
+      <if test="deleteFlag != null">
+        delete_Flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="bomCode != null">
+        #{bomCode,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=BIGINT},
+      </if>
+      <if test="materialId != null">
+        #{materialId,jdbcType=VARCHAR},
+      </if>
+      <if test="processorId != null">
+        #{processorId,jdbcType=VARCHAR},
+      </if>
+      <if test="bomType != null">
+        #{bomType,jdbcType=BIGINT},
+      </if>
+      <if test="cookYieldRate != null">
+        #{cookYieldRate,jdbcType=BIGINT},
+      </if>
+      <if test="customerIds != null">
+        #{customerIds,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tenantId != null">
+        #{tenantId,jdbcType=BIGINT},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jsh.erp.datasource.entities.BomMasterExample" resultType="java.lang.Long">
+    select count(*) from bom_master
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update bom_master
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bomCode != null">
+        bom_code = #{record.bomCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=BIGINT},
+      </if>
+      <if test="record.materialId != null">
+        material_id = #{record.materialId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.processorId != null">
+        processor_id = #{record.processorId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bomType != null">
+        bom_type = #{record.bomType,jdbcType=BIGINT},
+      </if>
+      <if test="record.cookYieldRate != null">
+        cook_yield_rate = #{record.cookYieldRate,jdbcType=BIGINT},
+      </if>
+      <if test="record.customerIds != null">
+        customer_ids = #{record.customerIds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.tenantId != null">
+        tenant_id = #{record.tenantId,jdbcType=BIGINT},
+      </if>
+      <if test="record.deleteFlag != null">
+        delete_Flag = #{record.deleteFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update bom_master
+    set id = #{record.id,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      bom_code = #{record.bomCode,jdbcType=VARCHAR},
+      creator = #{record.creator,jdbcType=BIGINT},
+      material_id = #{record.materialId,jdbcType=VARCHAR},
+      processor_id = #{record.processorId,jdbcType=VARCHAR},
+      bom_type = #{record.bomType,jdbcType=BIGINT},
+      cook_yield_rate = #{record.cookYieldRate,jdbcType=BIGINT},
+      customer_ids = #{record.customerIds,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      tenant_id = #{record.tenantId,jdbcType=BIGINT},
+      delete_Flag = #{record.deleteFlag,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jsh.erp.datasource.entities.BomMaster">
+    update bom_master
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="bomCode != null">
+        bom_code = #{bomCode,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=BIGINT},
+      </if>
+      <if test="materialId != null">
+        material_id = #{materialId,jdbcType=VARCHAR},
+      </if>
+      <if test="processorId != null">
+        processor_id = #{processorId,jdbcType=VARCHAR},
+      </if>
+      <if test="bomType != null">
+        bom_type = #{bomType,jdbcType=BIGINT},
+      </if>
+      <if test="cookYieldRate != null">
+        cook_yield_rate = #{cookYieldRate,jdbcType=BIGINT},
+      </if>
+      <if test="customerIds != null">
+        customer_ids = #{customerIds,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tenantId != null">
+        tenant_id = #{tenantId,jdbcType=BIGINT},
+      </if>
+      <if test="deleteFlag != null">
+        delete_Flag = #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jsh.erp.datasource.entities.BomMaster">
+    update bom_master
+    set name = #{name,jdbcType=VARCHAR},
+      bom_code = #{bomCode,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=BIGINT},
+      material_id = #{materialId,jdbcType=VARCHAR},
+      processor_id = #{processorId,jdbcType=VARCHAR},
+      bom_type = #{bomType,jdbcType=BIGINT},
+      cook_yield_rate = #{cookYieldRate,jdbcType=BIGINT},
+      customer_ids = #{customerIds,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      tenant_id = #{tenantId,jdbcType=BIGINT},
+      delete_Flag = #{deleteFlag,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

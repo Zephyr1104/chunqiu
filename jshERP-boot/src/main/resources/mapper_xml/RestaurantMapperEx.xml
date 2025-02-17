@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsh.erp.datasource.mappers.RestaurantMapperEx">
+
+    <select id="selectByConditionRestaurant" parameterType="com.jsh.erp.datasource.entities.RestaurantExample"
+            resultType="com.jsh.erp.datasource.entities.RestaurantEx">
+        select restaurant.*
+        FROM restaurant restaurant
+        where 1=1
+        <if test="name != null">
+            <bind name="name" value="'%'+name+'%'"/>
+            and restaurant.name like #{name}
+        </if>
+        and ifnull(restaurant.delete_Flag,'0') !='1'
+        order by restaurant.create_date asc, restaurant.id desc
+        <if test="offset != null and rows != null">
+            limit #{offset},#{rows}
+        </if>
+    </select>
+
+    <select id="countsByRestaurant" resultType="java.lang.Long">
+        SELECT
+        COUNT(restaurant.id)
+        FROM restaurant restaurant
+        WHERE 1=1
+        <if test="name != null">
+            <bind name="bindName" value="'%'+name+'%'"/>
+            and restaurant.name like #{bindName}
+        </if>
+        and ifnull(restaurant.delete_Flag,'0') !='1'
+    </select>
+
+    <update id="batchDeleteRestaurantByIds">
+        update restaurant
+        set delete_Flag='1'
+        where 1=1
+        and id in (
+        <foreach collection="ids" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </update>
+
+</mapper>

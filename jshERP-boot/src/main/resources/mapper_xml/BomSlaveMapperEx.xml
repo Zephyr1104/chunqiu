@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsh.erp.datasource.mappers.BomSlaveMapperEx">
+
+    <select id="selectByCondition" resultType="com.jsh.erp.datasource.entities.BomSlaveEx">
+        SELECT bs.*,bm.`name` as bomMasterName,jm.`name` as materialName
+        FROM bom_slave bs
+        LEFT JOIN bom_master bm on bs.bom_master_id = bm.id and ifnull(bm.delete_flag,'0') != '1'
+        LEFT JOIN jsh_material jm on bs.material_id = jm.id and ifnull(jm.delete_flag,'0') != '1'
+        WHERE 1=1
+        <if test="bomMasterId!=null">
+            and bs.bom_master_id = #{bomMasterId}
+        </if>
+        and ifnull(bs.delete_flag,'0') != '1'
+        order by bs.id desc
+        <if test="offset != null and rows != null">
+            limit #{offset},#{rows}
+        </if>
+    </select>
+
+    <select id="countsBySelect" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM bom_slave bs
+        WHERE 1=1
+        <if test="bomMasterId!=null">
+            and bs.bom_master_id = #{bomMasterId}
+        </if>
+        and ifnull(bs.delete_flag,'0') != '1'
+    </select>
+
+    <delete id="batchDeleteByIds">
+        update bom_slave
+        set delete_flag = '1'
+        where 1=1
+        and id in(
+        <foreach collection="ids" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+</mapper>

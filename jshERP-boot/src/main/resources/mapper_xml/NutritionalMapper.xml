@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsh.erp.datasource.mappers.NutritionalMapper">
+  <resultMap id="BaseResultMap" type="com.jsh.erp.datasource.entities.Nutritional">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="eat" jdbcType="DECIMAL" property="eat" />
+    <result column="energy" jdbcType="DECIMAL" property="energy" />
+    <result column="water" jdbcType="DECIMAL" property="water" />
+    <result column="protein" jdbcType="DECIMAL" property="protein" />
+    <result column="fat" jdbcType="DECIMAL" property="fat" />
+    <result column="fiber" jdbcType="DECIMAL" property="fiber" />
+    <result column="carbohydrates" jdbcType="DECIMAL" property="carbohydrates" />
+    <result column="vitaminA" jdbcType="DECIMAL" property="vitaminA" />
+    <result column="vitaminB1" jdbcType="DECIMAL" property="vitaminB1" />
+    <result column="vitaminB2" jdbcType="DECIMAL" property="vitaminB2" />
+    <result column="niacin" jdbcType="DECIMAL" property="niacin" />
+    <result column="vitaminE" jdbcType="DECIMAL" property="vitaminE" />
+    <result column="sodium" jdbcType="DECIMAL" property="sodium" />
+    <result column="calcium" jdbcType="DECIMAL" property="calcium" />
+    <result column="iron" jdbcType="DECIMAL" property="iron" />
+    <result column="vitaminC" jdbcType="DECIMAL" property="vitaminC" />
+    <result column="cholesterol" jdbcType="DECIMAL" property="cholesterol" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="tenant_id" jdbcType="BIGINT" property="tenantId" />
+    <result column="delete_flag" jdbcType="VARCHAR" property="deleteFlag" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="is_default" jdbcType="BIT" property="isDefault" />
+    <result column="enabled" jdbcType="BIT" property="enabled" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, eat, energy, water, protein, fat,fiber,carbohydrates,vitaminA,vitaminB1,vitaminB2,
+    niacin, vitaminE, sodium, calcium, iron, vitaminC,cholesterol,
+    tenant_id, user_id,delete_flag,create_date,is_default,enabled
+  </sql>
+  <select id="selectByExample" parameterType="com.jsh.erp.datasource.entities.NutritionalExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from nutritional
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from nutritional
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from nutritional
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jsh.erp.datasource.entities.NutritionalExample">
+    delete from nutritional
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jsh.erp.datasource.entities.Nutritional">
+    insert into nutritional (id, name, eat, energy, water, protein,
+    fat,fiber,carbohydrates,vitaminA,vitaminB1,vitaminB2,
+    niacin, vitaminE, sodium, calcium, iron, vitaminC,cholesterol,
+    tenant_id, user_id,delete_flag,create_date,is_default,enabled
+    values (#{id,jdbcType=BIGINT},  #{name,jdbcType=VARCHAR},
+      #{eat,jdbcType=DECIMAL}, #{energy,jdbcType=DECIMAL}, #{water,jdbcType=DECIMAL},
+      #{protein,jdbcType=DECIMAL}, #{fat,jdbcType=DECIMAL}, #{fiber,jdbcType=DECIMAL},
+      #{carbohydrates,jdbcType=DECIMAL}, #{vitaminA,jdbcType=DECIMAL},
+      #{vitaminB1,jdbcType=DECIMAL}, #{vitaminB2,jdbcType=DECIMAL},
+      #{niacin,jdbcType=DECIMAL}, #{vitaminE,jdbcType=DECIMAL},
+      #{sodium,jdbcType=DECIMAL}, #{calcium,jdbcType=DECIMAL},
+      #{iron,jdbcType=DECIMAL}, #{vitaminC,jdbcType=DECIMAL},#{cholesterol,jdbcType=DECIMAL},
+      #{tenantId,jdbcType=BIGINT},#{userId,jdbcType=BIGINT},
+      #{deleteFlag,jdbcType=VARCHAR}),#{createDate,jdbcType=TIMESTAMP},
+      #{isDefault,jdbcType=BIT}, #{enabled,jdbcType=BIT}
+  </insert>
+  <insert id="insertSelective" parameterType="com.jsh.erp.datasource.entities.Nutritional">
+    insert into nutritional
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="eat != null">
+        eat,
+      </if>
+      <if test="energy != null">
+        energy,
+      </if>
+      <if test="water != null">
+        water,
+      </if>
+      <if test="protein != null">
+        protein,
+      </if>
+      <if test="fat != null">
+        fat,
+      </if>
+       <if test="fiber != null">
+         fiber,
+      </if>
+      <if test="carbohydrates != null">
+        carbohydrates,
+      </if>
+      <if test="vitaminA != null">
+        vitaminA,
+      </if>
+      <if test="vitaminB1 != null">
+        vitaminB1,
+      </if>
+      <if test="vitaminB2 != null">
+        vitaminB2,
+      </if>
+      <if test="niacin != null">
+        niacin,
+      </if>
+      <if test="vitaminE != null">
+        vitaminE,
+      </if>
+       <if test="sodium != null">
+         sodium,
+      </if>
+      <if test="calcium != null">
+        calcium,
+      </if>
+      <if test="iron != null">
+        iron,
+      </if>
+      <if test="vitaminC != null">
+        vitaminC,
+      </if>
+      <if test="cholesterol != null">
+        cholesterol,
+      </if>
+      <if test="tenantId != null">
+        tenant_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="eat != null">
+        #{eat,jdbcType=DECIMAL},
+      </if>
+      <if test="energy != null">
+        #{energy,jdbcType=DECIMAL},
+      </if>
+      <if test="water != null">
+        #{water,jdbcType=DECIMAL},
+      </if>
+      <if test="protein != null">
+        #{protein,jdbcType=DECIMAL},
+      </if>
+      <if test="fat != null">
+        #{fat,jdbcType=DECIMAL},
+      </if>
+      <if test="fiber != null">
+        #{fiber,jdbcType=DECIMAL},
+      </if>
+      <if test="carbohydrates != null">
+        #{carbohydrates,jdbcType=DECIMAL},
+      </if>
+      <if test="vitaminA != null">
+        #{vitaminA,jdbcType=DECIMAL},
+      </if>
+      <if test="vitaminB1 != null">
+        #{vitaminB1,jdbcType=DECIMAL},
+      </if>
+      <if test="vitaminB2 != null">
+        #{vitaminB2,jdbcType=DECIMAL},
+      </if>
+      <if test="niacin != null">
+        #{niacin,jdbcType=DECIMAL},
+      </if>
+      <if test="vitaminE != null">
+        #{vitaminE,jdbcType=DECIMAL},
+      </if>
+      <if test="sodium != null">
+        #{sodium,jdbcType=DECIMAL},
+      </if>
+      <if test="calcium != null">
+        #{calcium,jdbcType=DECIMAL},
+      </if>
+      <if test="iron != null">
+        #{iron,jdbcType=DECIMAL},
+      </if>
+      <if test="vitaminC != null">
+        #{vitaminC,jdbcType=DECIMAL},
+      </if>
+      <if test="cholesterol != null">
+        #{cholesterol,jdbcType=DECIMAL},
+      </if>
+      <if test="tenantId != null">
+        #{tenantId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDefault != null">
+        #{isDefault,jdbcType=BIT},
+      </if>
+      <if test="enabled != null">
+        #{enabled,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jsh.erp.datasource.entities.NutritionalExample" resultType="java.lang.Long">
+    select count(*) from nutritional
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update nutritional
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null">
+        user_id = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tenantId != null">
+        tenant_id = #{record.tenantId,jdbcType=BIGINT},
+      </if>
+      <if test="record.deleteFlag != null">
+        delete_flag = #{record.deleteFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDefault != null">
+        is_default = #{record.isDefault,jdbcType=BIT},
+      </if>
+      <if test="record.enabled != null">
+        enabled = #{record.enabled,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update nutritional
+    set id = #{record.id,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      tenant_id = #{record.tenantId,jdbcType=BIGINT},
+      delete_flag = #{record.deleteFlag,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      is_default = #{record.isDefault,jdbcType=BIT},
+      enabled = #{record.enabled,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jsh.erp.datasource.entities.Nutritional">
+    update nutritional
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="tenantId != null">
+        tenant_id = #{tenantId,jdbcType=BIGINT},
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDefault != null">
+        is_default = #{isDefault,jdbcType=BIT},
+      </if>
+      <if test="enabled != null">
+        enabled = #{enabled,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jsh.erp.datasource.entities.Nutritional">
+    update nutritional
+    set name = #{name,jdbcType=VARCHAR},
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

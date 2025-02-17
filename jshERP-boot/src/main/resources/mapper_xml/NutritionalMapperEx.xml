@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsh.erp.datasource.mappers.NutritionalMapperEx">
+
+    <select id="selectByConditionNutritional" parameterType="com.jsh.erp.datasource.entities.NutritionalExample"
+            resultType="com.jsh.erp.datasource.entities.Nutritional">
+        select nutritional.*
+        FROM nutritional nutritional
+        where 1=1
+        <if test="name != null">
+            <bind name="name" value="'%'+name+'%'"/>
+            and nutritional.name like #{name}
+        </if>
+        and ifnull(nutritional.delete_Flag,'0') !='1'
+        order by nutritional.create_date asc, nutritional.id desc
+        <if test="offset != null and rows != null">
+            limit #{offset},#{rows}
+        </if>
+    </select>
+
+    <select id="countsByNutritional" resultType="java.lang.Long">
+        SELECT
+        COUNT(nutritional.id)
+        FROM nutritional nutritional
+        WHERE 1=1
+        <if test="name != null">
+            <bind name="bindName" value="'%'+name+'%'"/>
+            and nutritional.name like #{bindName}
+        </if>
+        and ifnull(nutritional.delete_Flag,'0') !='1'
+    </select>
+
+    <update id="batchDeleteNutritionalByIds">
+        update nutritional
+        set delete_Flag='1'
+        where 1=1
+        and id in (
+        <foreach collection="ids" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </update>
+
+</mapper>

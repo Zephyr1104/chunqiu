@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsh.erp.datasource.mappers.DishPackageMapperEx">
+
+    <select id="selectByConditionDishPackage" resultType="com.jsh.erp.datasource.entities.DishPackageEx">
+        SELECT
+        dp.*,
+        jm.`name` as mealName
+        FROM
+        dish_package dp
+        LEFT JOIN jsh_meal jm ON dp.meal_type = jm.id AND IFNULL( jm.delete_Flag, '0' ) != '1'
+        WHERE 1 = 1
+        <if test="name!=null and name!= ''">
+            <bind name="bindName" value="'%' + name + '%'"/>
+            and dp.name like #{bindName}
+        </if>
+        <if test="mealType != null">
+            and dp.meal_type = #{mealType}
+        </if>
+        AND IFNULL( dp.delete_Flag, '0' ) != '1'
+        ORDER BY dp.id DESC
+        <if test="offset != null and rows != null">
+            limit #{offset},#{rows}
+        </if>
+    </select>
+
+    <select id="countsByDishPackage" resultType="java.lang.Long">
+        select count(*)
+        from dish_package dp
+        where 1 = 1
+        <if test="name!=null and name!= ''">
+            <bind name="bindName" value="'%' + name + '%'"/>
+            and dp.name like #{bindName}
+        </if>
+        <if test="mealType != null">
+            and dp.meal_type = #{mealType}
+        </if>
+        and ifnull(dp.delete_Flag, '0') != '1'
+    </select>
+
+    <delete id="batchDeleteDishPackageByIds">
+        update dish_package dp
+        set delete_Flag = '1'
+        where id in (
+        <foreach collection="ids" item="id" separator=",">
+            #{id}
+        </foreach>
+            )
+    </delete>
+</mapper>

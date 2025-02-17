@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsh.erp.datasource.mappers.InformationMapper">
+  <resultMap id="BaseResultMap" type="com.jsh.erp.datasource.entities.Information">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="short_name" jdbcType="VARCHAR" property="shortName" />
+    <result column="department" jdbcType="BIGINT" property="department" />
+    <result column="profit_center" jdbcType="VARCHAR" property="profitCenter" />
+    <result column="kitchen_type" jdbcType="TINYINT" property="kitchenType" />
+    <result column="planning_department" jdbcType="BIGINT" property="planningDepartment" />
+    <result column="up_department" jdbcType="BIGINT" property="upDepartment" />
+    <result column="recipe_terminal" jdbcType="BIGINT" property="recipeTerminal" />
+    <result column="cold_terminal" jdbcType="VARCHAR" property="coldTerminal" />
+    <result column="bucket_source" jdbcType="VARCHAR" property="bucketSource" />
+    <result column="head" jdbcType="VARCHAR" property="head" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="customers" jdbcType="VARCHAR" property="customers" />
+    <result column="addr" jdbcType="VARCHAR" property="addr" />
+    <result column="packaging_line" jdbcType="BIGINT" property="packagingLine" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="tenant_id" jdbcType="BIGINT" property="tenantId" />
+    <result column="delete_flag" jdbcType="VARCHAR" property="deleteFlag" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="is_default" jdbcType="BIT" property="isDefault" />
+    <result column="enabled" jdbcType="BIT" property="enabled" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, code, name, short_name, department, profit_center, kitchen_type,planning_department,up_department,recipe_terminal,cold_terminal,bucket_source,
+    head, telephone, customers, addr, packaging_line,
+    tenant_id, user_id,delete_flag,create_date,is_default,enabled
+  </sql>
+  <select id="selectByExample" parameterType="com.jsh.erp.datasource.entities.InformationExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from information
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from information
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from information
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jsh.erp.datasource.entities.InformationExample">
+    delete from information
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jsh.erp.datasource.entities.Information">
+    insert into information (id, code, name, short_name, department, profit_center,
+    kitchen_type,planning_department,up_department,recipe_terminal,cold_terminal,bucket_source,
+    head, telephone, customers, addr, packaging_line,
+    tenant_id, user_id,delete_flag,create_date,is_default,enabled
+    values (#{id,jdbcType=BIGINT},  #{code,jdbcType=VARCHAR},
+      #{name,jdbcType=VARCHAR}, #{shortName,jdbcType=VARCHAR}, #{department,jdbcType=BIGINT},
+      #{profitCenter,jdbcType=VARCHAR}, #{kitchenType,jdbcType=TINYINT}, #{planningDepartment,jdbcType=BIGINT},
+      #{upDepartment,jdbcType=BIGINT}, #{recipeTerminal,jdbcType=BIGINT},
+      #{coldTerminal,jdbcType=VARCHAR}, #{bucketSource,jdbcType=VARCHAR},
+      #{head,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR},
+      #{customers,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR},
+      #{packagingLine,jdbcType=BIGINT},
+      #{tenantId,jdbcType=BIGINT},#{userId,jdbcType=BIGINT},
+      #{deleteFlag,jdbcType=VARCHAR}),#{createDate,jdbcType=TIMESTAMP},
+      #{isDefault,jdbcType=BIT}, #{enabled,jdbcType=BIT}
+  </insert>
+  <insert id="insertSelective" parameterType="com.jsh.erp.datasource.entities.InformationEx">
+    insert into information
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="shortName != null">
+        short_name,
+      </if>
+      <if test="department != null">
+        department,
+      </if>
+      <if test="profitCenter != null">
+        profit_center,
+      </if>
+      <if test="kitchenType != null">
+        kitchen_type,
+      </if>
+       <if test="planningDepartment != null">
+         planning_department,
+      </if>
+      <if test="upDepartment != null">
+        up_department,
+      </if>
+      <if test="recipeTerminal != null">
+        recipe_terminal,
+      </if>
+      <if test="coldTerminal != null">
+        cold_terminal,
+      </if>
+      <if test="bucketSource != null">
+        bucket_source,
+      </if>
+      <if test="head != null">
+        head,
+      </if>
+      <if test="telephone != null">
+        telephone,
+      </if>
+       <if test="customers != null">
+         customers,
+      </if>
+      <if test="addr != null">
+        addr,
+      </if>
+      <if test="packagingLine != null">
+        packaging_line,
+      </if>
+      <if test="tenantId != null">
+        tenant_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="shortName != null">
+        #{shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null">
+        #{department,jdbcType=BIGINT},
+      </if>
+      <if test="profitCenter != null">
+        #{profitCenter,jdbcType=VARCHAR},
+      </if>
+      <if test="kitchenType != null">
+        #{kitchenType,jdbcType=TINYINT},
+      </if>
+      <if test="planningDepartment != null">
+        #{planningDepartment,jdbcType=BIGINT},
+      </if>
+      <if test="upDepartment != null">
+        #{upDepartment,jdbcType=BIGINT},
+      </if>
+      <if test="recipeTerminal != null">
+        #{recipeTerminal,jdbcType=BIGINT},
+      </if>
+      <if test="coldTerminal != null">
+        #{coldTerminal,jdbcType=VARCHAR},
+      </if>
+      <if test="bucketSource != null">
+        #{bucketSource,jdbcType=VARCHAR},
+      </if>
+      <if test="head != null">
+        #{head,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="customers != null">
+        #{customers,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null">
+        #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="packagingLine != null">
+        #{packagingLine,jdbcType=BIGINT},
+      </if>
+      <if test="tenantId != null">
+        #{tenantId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDefault != null">
+        #{isDefault,jdbcType=BIT},
+      </if>
+      <if test="enabled != null">
+        #{enabled,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jsh.erp.datasource.entities.InformationExample" resultType="java.lang.Long">
+    select count(*) from information
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update information
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shortName != null">
+        short_name = #{record.shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.department != null">
+        department = #{record.department,jdbcType=BIGINT},
+      </if>
+      <if test="record.profitCenter != null">
+        profit_center = #{record.profitCenter,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kitchenType != null">
+        kitchen_type = #{record.kitchenType,jdbcType=TINYINT},
+      </if>
+      <if test="record.planningDepartment != null">
+        planning_department = #{record.planningDepartment,jdbcType=BIGINT},
+      </if>
+      <if test="record.upDepartment != null">
+        up_department = #{record.upDepartment,jdbcType=BIGINT},
+      </if>
+      <if test="record.recipeTerminal != null">
+        recipe_terminal = #{record.recipeTerminal,jdbcType=BIGINT},
+      </if>
+      <if test="record.coldTerminal != null">
+        cold_terminal = #{record.coldTerminal,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bucketSource != null">
+        bucket_source = #{record.bucketSource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.head != null">
+        head = #{record.head,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telephone != null">
+        telephone = #{record.telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customers != null">
+        customers = #{record.customers,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addr != null">
+        addr = #{record.addr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.packagingLine != null">
+        packaging_line = #{record.packagingLine,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.tenantId != null">
+        tenant_id = #{record.tenantId,jdbcType=BIGINT},
+      </if>
+      <if test="record.deleteFlag != null">
+        delete_flag = #{record.deleteFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDefault != null">
+        is_default = #{record.isDefault,jdbcType=BIT},
+      </if>
+      <if test="record.enabled != null">
+        enabled = #{record.enabled,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update information
+    set id = #{record.id,jdbcType=BIGINT},
+      code = #{record.code,jdbcType=VARCHAR},
+    name = #{record.name,jdbcType=VARCHAR},
+    short_name = #{record.shortName,jdbcType=VARCHAR},
+    department = #{record.department,jdbcType=BIGINT},
+    profit_center = #{record.profitCenter,jdbcType=VARCHAR},
+    kitchen_type = #{record.kitchenType,jdbcType=TINYINT},
+    planning_department = #{record.planningDepartment,jdbcType=BIGINT},
+    up_department = #{record.upDepartment,jdbcType=BIGINT},
+    recipe_terminal = #{record.recipeTerminal,jdbcType=BIGINT},
+    cold_terminal = #{record.coldTerminal,jdbcType=VARCHAR},
+    bucket_source = #{record.bucketSource,jdbcType=VARCHAR},
+    head = #{record.head,jdbcType=VARCHAR},
+    telephone = #{record.telephone,jdbcType=VARCHAR},
+    customers = #{record.customers,jdbcType=VARCHAR},
+    addr = #{record.addr,jdbcType=VARCHAR},
+    packaging_line = #{record.packagingLine,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      tenant_id = #{record.tenantId,jdbcType=BIGINT},
+      delete_flag = #{record.deleteFlag,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      is_default = #{record.isDefault,jdbcType=BIT},
+      enabled = #{record.enabled,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jsh.erp.datasource.entities.InformationEx">
+    update information
+    <set>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="shortName != null">
+        short_name = #{shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null">
+        department = #{department,jdbcType=BIGINT},
+      </if>
+      <if test="profitCenter != null">
+        profit_center = #{profitCenter,jdbcType=VARCHAR},
+      </if>
+      <if test="kitchenType != null">
+        kitchen_type = #{kitchenType,jdbcType=TINYINT},
+      </if>
+      <if test="planningDepartment != null">
+        planning_department = #{planningDepartment,jdbcType=BIGINT},
+      </if>
+      <if test="upDepartment != null">
+        up_department = #{upDepartment,jdbcType=BIGINT},
+      </if>
+      <if test="recipeTerminal != null">
+        recipe_terminal = #{recipeTerminal,jdbcType=BIGINT},
+      </if>
+      <if test="coldTerminal != null">
+        cold_terminal = #{coldTerminal,jdbcType=VARCHAR},
+      </if>
+      <if test="bucketSource != null">
+        bucket_source = #{bucketSource,jdbcType=VARCHAR},
+      </if>
+      <if test="head != null">
+        head = #{head,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="customers != null">
+        customers = #{customers,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null">
+        addr = #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="packagingLine != null">
+        packaging_line = #{packagingLine,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="tenantId != null">
+        tenant_id = #{tenantId,jdbcType=BIGINT},
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDefault != null">
+        is_default = #{isDefault,jdbcType=BIT},
+      </if>
+      <if test="enabled != null">
+        enabled = #{enabled,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jsh.erp.datasource.entities.Information">
+    update information
+    set code = #{code,jdbcType=VARCHAR},
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsh.erp.datasource.mappers.DishNameMapper">
+  <resultMap id="BaseResultMap" type="com.jsh.erp.datasource.entities.DishName">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="name_type" jdbcType="VARCHAR" property="nameType" />
+    <result column="cooking_type" jdbcType="VARCHAR" property="cookingType" />
+    <result column="main_type" jdbcType="VARCHAR" property="mainType" />
+    <result column="cuisine_type" jdbcType="VARCHAR" property="cuisineType" />
+    <result column="color_type" jdbcType="VARCHAR" property="colorType" />
+    <result column="taste_type" jdbcType="VARCHAR" property="tasteType" />
+    <result column="allergen" jdbcType="VARCHAR" property="allergen" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="tenant_id" jdbcType="BIGINT" property="tenantId" />
+    <result column="delete_Flag" jdbcType="VARCHAR" property="deleteFlag" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, name_type, cooking_type, main_type, cuisine_type, color_type, taste_type, 
+    allergen, creator, create_time, update_time, tenant_id, delete_Flag
+  </sql>
+  <select id="selectByExample" parameterType="com.jsh.erp.datasource.entities.DishNameExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dish_name
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dish_name
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dish_name
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jsh.erp.datasource.entities.DishNameExample">
+    delete from dish_name
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jsh.erp.datasource.entities.DishName">
+    insert into dish_name (id, name, name_type, 
+      cooking_type, main_type, cuisine_type, 
+      color_type, taste_type, allergen, 
+      creator, create_time, update_time, 
+      tenant_id, delete_Flag)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{nameType,jdbcType=VARCHAR}, 
+      #{cookingType,jdbcType=VARCHAR}, #{mainType,jdbcType=VARCHAR}, #{cuisineType,jdbcType=VARCHAR}, 
+      #{colorType,jdbcType=VARCHAR}, #{tasteType,jdbcType=VARCHAR}, #{allergen,jdbcType=VARCHAR}, 
+      #{creator,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{tenantId,jdbcType=BIGINT}, #{deleteFlag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jsh.erp.datasource.entities.DishName">
+    insert into dish_name
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="nameType != null">
+        name_type,
+      </if>
+      <if test="cookingType != null">
+        cooking_type,
+      </if>
+      <if test="mainType != null">
+        main_type,
+      </if>
+      <if test="cuisineType != null">
+        cuisine_type,
+      </if>
+      <if test="colorType != null">
+        color_type,
+      </if>
+      <if test="tasteType != null">
+        taste_type,
+      </if>
+      <if test="allergen != null">
+        allergen,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="tenantId != null">
+        tenant_id,
+      </if>
+      <if test="deleteFlag != null">
+        delete_Flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nameType != null">
+        #{nameType,jdbcType=VARCHAR},
+      </if>
+      <if test="cookingType != null">
+        #{cookingType,jdbcType=VARCHAR},
+      </if>
+      <if test="mainType != null">
+        #{mainType,jdbcType=VARCHAR},
+      </if>
+      <if test="cuisineType != null">
+        #{cuisineType,jdbcType=VARCHAR},
+      </if>
+      <if test="colorType != null">
+        #{colorType,jdbcType=VARCHAR},
+      </if>
+      <if test="tasteType != null">
+        #{tasteType,jdbcType=VARCHAR},
+      </if>
+      <if test="allergen != null">
+        #{allergen,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tenantId != null">
+        #{tenantId,jdbcType=BIGINT},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jsh.erp.datasource.entities.DishNameExample" resultType="java.lang.Long">
+    select count(*) from dish_name
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dish_name
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nameType != null">
+        name_type = #{record.nameType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cookingType != null">
+        cooking_type = #{record.cookingType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mainType != null">
+        main_type = #{record.mainType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cuisineType != null">
+        cuisine_type = #{record.cuisineType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.colorType != null">
+        color_type = #{record.colorType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tasteType != null">
+        taste_type = #{record.tasteType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.allergen != null">
+        allergen = #{record.allergen,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.tenantId != null">
+        tenant_id = #{record.tenantId,jdbcType=BIGINT},
+      </if>
+      <if test="record.deleteFlag != null">
+        delete_Flag = #{record.deleteFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dish_name
+    set id = #{record.id,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      name_type = #{record.nameType,jdbcType=VARCHAR},
+      cooking_type = #{record.cookingType,jdbcType=VARCHAR},
+      main_type = #{record.mainType,jdbcType=VARCHAR},
+      cuisine_type = #{record.cuisineType,jdbcType=VARCHAR},
+      color_type = #{record.colorType,jdbcType=VARCHAR},
+      taste_type = #{record.tasteType,jdbcType=VARCHAR},
+      allergen = #{record.allergen,jdbcType=VARCHAR},
+      creator = #{record.creator,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      tenant_id = #{record.tenantId,jdbcType=BIGINT},
+      delete_Flag = #{record.deleteFlag,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jsh.erp.datasource.entities.DishName">
+    update dish_name
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nameType != null">
+        name_type = #{nameType,jdbcType=VARCHAR},
+      </if>
+      <if test="cookingType != null">
+        cooking_type = #{cookingType,jdbcType=VARCHAR},
+      </if>
+      <if test="mainType != null">
+        main_type = #{mainType,jdbcType=VARCHAR},
+      </if>
+      <if test="cuisineType != null">
+        cuisine_type = #{cuisineType,jdbcType=VARCHAR},
+      </if>
+      <if test="colorType != null">
+        color_type = #{colorType,jdbcType=VARCHAR},
+      </if>
+      <if test="tasteType != null">
+        taste_type = #{tasteType,jdbcType=VARCHAR},
+      </if>
+      <if test="allergen != null">
+        allergen = #{allergen,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tenantId != null">
+        tenant_id = #{tenantId,jdbcType=BIGINT},
+      </if>
+      <if test="deleteFlag != null">
+        delete_Flag = #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jsh.erp.datasource.entities.DishName">
+    update dish_name
+    set name = #{name,jdbcType=VARCHAR},
+      name_type = #{nameType,jdbcType=VARCHAR},
+      cooking_type = #{cookingType,jdbcType=VARCHAR},
+      main_type = #{mainType,jdbcType=VARCHAR},
+      cuisine_type = #{cuisineType,jdbcType=VARCHAR},
+      color_type = #{colorType,jdbcType=VARCHAR},
+      taste_type = #{tasteType,jdbcType=VARCHAR},
+      allergen = #{allergen,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      tenant_id = #{tenantId,jdbcType=BIGINT},
+      delete_Flag = #{deleteFlag,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

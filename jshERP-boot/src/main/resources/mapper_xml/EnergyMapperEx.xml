@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsh.erp.datasource.mappers.EnergyMapperEx">
+
+    <select id="selectByConditionEnergy" parameterType="com.jsh.erp.datasource.entities.EnergyExample"
+            resultType="com.jsh.erp.datasource.entities.Energy">
+        select  energy.*
+        FROM  energy  energy
+        where 1=1
+        <if test="category != null">
+            <bind name="category" value="'%'+category+'%'"/>
+            and  energy.category like #{category}
+        </if>
+        and ifnull( energy.delete_Flag,'0') !='1'
+        order by  energy.create_date asc,  energy.id desc
+        <if test="offset != null and rows != null">
+            limit #{offset},#{rows}
+        </if>
+    </select>
+
+    <select id="countsByEnergy" resultType="java.lang.Long">
+        SELECT
+        COUNT( energy.id)
+        FROM  energy  energy
+        WHERE 1=1
+        <if test="category != null">
+            <bind name="bindCategory" value="'%'+category+'%'"/>
+            and  energy.category like #{bindCategory}
+        </if>
+        and ifnull( energy.delete_Flag,'0') !='1'
+    </select>
+
+    <update id="batchDeleteEnergyByIds">
+        update  energy
+        set delete_Flag='1'
+        where 1=1
+        and id in (
+        <foreach collection="ids" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </update>
+
+</mapper>

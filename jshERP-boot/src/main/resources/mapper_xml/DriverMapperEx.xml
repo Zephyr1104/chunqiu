@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsh.erp.datasource.mappers.DriverMapperEx">
+
+    <select id="selectByConditionDriver" parameterType="com.jsh.erp.datasource.entities.DriverExample" 
+            resultType="com.jsh.erp.datasource.entities.Driver">
+        select *
+        FROM driver driver
+        where 1=1
+        and driver.status !='1'
+        <if test="loginName != null">
+            <bind name="bindLoginName" value="'%'+loginName+'%'"/>
+            and driver.login_name like #{bindLoginName}
+        </if>
+        <if test="driverName != null">
+            <bind name="bindDriverName" value="'%'+driverName+'%'"/>
+            and driver.driver_name like #{bindDriverName}
+        </if>
+        order by driver.id desc
+        <if test="offset != null and rows != null">
+            limit #{offset},#{rows}
+        </if>
+    </select>
+    <select id="countsByDriver" resultType="java.lang.Long">
+        select count(driver.id)
+        FROM driver driver
+        where 1=1
+        and driver.status !='1'
+        <if test="driverName != null">
+            <bind name="bindDriverName" value="'%'+driverName+'%'"/>
+            and driver.driver_name like #{bindDriverName}
+        </if>
+        <if test="loginName != null">
+            <bind name="bindLoginName" value="'%'+loginName+'%'"/>
+            and driver.login_name like #{bindLoginName}
+        </if>
+    </select>
+    <select id="getDriverListByDriverNameOrLoginName" resultMap="com.jsh.erp.datasource.mappers.DriverMapper.BaseResultMap">
+        select driver.id, driver.driver_name, driver.login_name, driver.car_number, driver.email, driver.phonenum,
+        driver.description, driver.remark,driver.isystem
+        FROM driver driver
+        where 1=1
+        and ifnull(driver.status,'0') not in('1','2')
+        <if test="driverName != null and driverName != ''">
+            and driver.driver_name = #{driverName}
+        </if>
+        <if test="loginName != null and loginName != ''">
+            and driver.login_name = #{loginName}
+        </if>
+        order by driver.id desc
+    </select>
+    <update id="batDeleteOrUpdateDriver">
+        update driver
+        set status=#{status}
+        where id in (
+        <foreach collection="ids" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </update>
+
+</mapper>
